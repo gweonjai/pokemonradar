@@ -15,8 +15,8 @@ export const Header: React.FC = () => {
 
           <div>
             <div className="flex items-center gap-1.5">
-              <h1 className="text-xl font-black tracking-tight text-slate-900 bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent">
-                PokeRadar
+              <h1 className="text-lg sm:text-xl font-black tracking-tight text-slate-900 bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent">
+                Pokemon Radar
               </h1>
               <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 bg-red-100 text-red-700 rounded-md tracking-wider">
                 GO

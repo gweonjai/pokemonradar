@@ -80,7 +80,7 @@ export const App: React.FC = () => {
       <footer className="w-full max-w-md mx-auto px-4 py-5 text-center text-xs text-slate-400 space-y-1">
         <p className="flex items-center justify-center gap-1 font-semibold text-slate-500">
           <Shield className="w-3.5 h-3.5 text-red-500" />
-          <span>PokeRadar • 포켓몬 GO 레이드 공략 도우미</span>
+          <span>Pokemon Radar • 포켓몬 GO 레이드 공략 도우미</span>
         </p>
         <p className="text-[11px] text-slate-400">
           Pokémon and Pokémon character names are trademarks of Nintendo.
