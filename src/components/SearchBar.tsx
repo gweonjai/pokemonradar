@@ -27,7 +27,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     }
 
     const matched = searchLocalPokemons(query);
-    setResults(matched.slice(0, 8)); // 상위 8개 표시
+    setResults(matched.slice(0, 10)); // 상위 10개 표시
     setIsOpen(true);
   }, [query]);
 

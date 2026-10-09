@@ -82,11 +82,12 @@ export async function fetchPokemonFromPokeApi(idOrName: string | number): Promis
 export function searchLocalPokemons(query: string): PokemonBasic[] {
   if (!query || !query.trim()) return [];
 
+  const cleanQuery = query.trim().toLowerCase();
   const localCache = getLocalCache();
   const allKnown = [...POPULAR_POKEMONS];
 
   // 캐시된 포켓몬 중 중복되지 않은 항목 병합
-  const knownIds = new Set(allKnown.map(p => p.id));
+  const knownIds = new Set(allKnown.map((p) => p.id));
   for (const p of Object.values(localCache)) {
     if (!knownIds.has(p.id)) {
       allKnown.push(p);
@@ -94,5 +95,29 @@ export function searchLocalPokemons(query: string): PokemonBasic[] {
     }
   }
 
-  return allKnown.filter(p => matchesSearch(query, p));
+  const matched = allKnown.filter((p) => matchesSearch(cleanQuery, p));
+
+  // 검색 적합도 우선순위 정렬
+  return matched.sort((a, b) => {
+    const aKo = a.nameKo.toLowerCase();
+    const bKo = b.nameKo.toLowerCase();
+
+    // 1. 완전 일치 우선
+    if (aKo === cleanQuery && bKo !== cleanQuery) return -1;
+    if (bKo === cleanQuery && aKo !== cleanQuery) return 1;
+
+    // 2. 검색어로 시작하는 이름 우선 (예: '피카' -> '피카츄')
+    const aStarts = aKo.startsWith(cleanQuery);
+    const bStarts = bKo.startsWith(cleanQuery);
+    if (aStarts && !bStarts) return -1;
+    if (!aStarts && bStarts) return 1;
+
+    // 3. 도감 번호 정확히 일치 우선
+    const cleanNum = cleanQuery.replace(/^#/, '');
+    if (String(a.id) === cleanNum && String(b.id) !== cleanNum) return -1;
+    if (String(b.id) === cleanNum && String(a.id) !== cleanNum) return 1;
+
+    // 4. 도감 번호 순 정렬
+    return a.id - b.id;
+  });
 }
